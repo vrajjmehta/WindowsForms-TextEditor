@@ -39,19 +39,28 @@ namespace WindowsForms_TextEditor
                     if (result == DialogResult.OK)
                     {
                         this.Hide();
+                        Editor textEditor = new Editor();
+                        textEditor.Show();
                     }
                     break;
                 }
             }
+
             if (loginflag == false)
             {
-                 DialogResult result = MessageBox.Show("Login Unsuccessful", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogResult result = MessageBox.Show("Login Unsuccessful", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (result == DialogResult.OK)
                 {
                     username_box.Clear();
                     password_Box.Clear();
                 }
             }
+        }
+
+        private void newuser_Click(object sender, EventArgs e)
+        {
+            newUserForm register = new newUserForm();
+            register.Show();
         }
     }
 }

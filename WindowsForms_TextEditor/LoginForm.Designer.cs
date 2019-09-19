@@ -60,6 +60,7 @@ namespace WindowsForms_TextEditor
             // username_box
             // 
             this.username_box.Location = new System.Drawing.Point(186, 63);
+            this.username_box.MaxLength = 16;
             this.username_box.Name = "username_box";
             this.username_box.Size = new System.Drawing.Size(100, 20);
             this.username_box.TabIndex = 2;
@@ -67,9 +68,11 @@ namespace WindowsForms_TextEditor
             // password_Box
             // 
             this.password_Box.Location = new System.Drawing.Point(186, 121);
+            this.password_Box.MaxLength = 16;
             this.password_Box.Name = "password_Box";
             this.password_Box.Size = new System.Drawing.Size(100, 20);
             this.password_Box.TabIndex = 3;
+            this.password_Box.UseSystemPasswordChar = true;
             // 
             // newuser
             // 
@@ -80,6 +83,7 @@ namespace WindowsForms_TextEditor
             this.newuser.TabIndex = 4;
             this.newuser.Text = "New User";
             this.newuser.UseVisualStyleBackColor = true;
+            this.newuser.Click += new System.EventHandler(this.newuser_Click);
             // 
             // login
             // 
