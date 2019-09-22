@@ -119,6 +119,7 @@ namespace WindowsForms_TextEditor
             this.Controls.Add(this.label1);
             this.Name = "LoginForm";
             this.Text = "LOGIN";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

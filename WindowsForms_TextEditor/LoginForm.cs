@@ -1,12 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsForms_TextEditor
@@ -14,6 +7,8 @@ namespace WindowsForms_TextEditor
     public partial class LoginForm : Form
     {
         bool loginflag;
+        public static string username { get; set; }
+        public static string userType { get; set; }
         public LoginForm()
         {
             loginflag = false;
@@ -27,33 +22,42 @@ namespace WindowsForms_TextEditor
 
         private void login_Click(object sender, EventArgs e)
         {
-            string[] logindata = File.ReadAllLines("login.txt");
-
-            foreach(string set in logindata)
+            try
             {
-                string[] splits = set.Split(',');
-                if(splits[0]==username_box.Text && splits[1] == password_Box.Text)
+                string[] logindata = File.ReadAllLines("login.txt");
+
+                foreach (string set in logindata)
                 {
-                    DialogResult result = MessageBox.Show("Login Successful!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    loginflag = true;
+                    string[] splits = set.Split(',');
+                    if (splits[0] == username_box.Text && splits[1] == password_Box.Text)
+                    {
+                        DialogResult result = MessageBox.Show("Login Successful!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        loginflag = true;
+                        if (result == DialogResult.OK)
+                        {
+                            this.Hide();
+                            username = username_box.Text;
+                            userType = splits[2];
+                            Editor textEditor = new Editor();
+                            textEditor.Show();
+                        }
+                        break;
+                    }
+                }
+
+                if (loginflag == false)
+                {
+                    DialogResult result = MessageBox.Show("Login Unsuccessful. Incorrect Username/Password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     if (result == DialogResult.OK)
                     {
-                        this.Hide();
-                        Editor textEditor = new Editor();
-                        textEditor.Show();
+                        username_box.Clear();
+                        password_Box.Clear();
                     }
-                    break;
                 }
             }
-
-            if (loginflag == false)
+            catch(Exception exe)
             {
-                DialogResult result = MessageBox.Show("Login Unsuccessful", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                if (result == DialogResult.OK)
-                {
-                    username_box.Clear();
-                    password_Box.Clear();
-                }
+                MessageBox.Show(exe.Message);
             }
         }
 
@@ -61,6 +65,11 @@ namespace WindowsForms_TextEditor
         {
             newUserForm register = new newUserForm();
             register.Show();
+        }
+
+        private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

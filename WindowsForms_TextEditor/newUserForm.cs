@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
@@ -20,7 +13,7 @@ namespace WindowsForms_TextEditor
 
         private void cancel_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Hide();
         }
 
         private void newUserForm_Load(object sender, EventArgs e)
@@ -53,28 +46,61 @@ namespace WindowsForms_TextEditor
 
         private void submit_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(username.Text) && !String.IsNullOrEmpty(password.Text) && !String.IsNullOrEmpty(usertype.Text) && !String.IsNullOrEmpty(firstname.Text) && !String.IsNullOrEmpty(lastname.Text) && !String.IsNullOrEmpty(usertype.Text))
+            try
             {
-                if (password.Text == repassword.Text)
+                if (checkUniqueUser())
                 {
-                    StreamWriter sw = new StreamWriter("login.txt", append: true);
-                    sw.WriteLine("\n" + username.Text + "," + password.Text + "," + usertype.Text + "," + firstname.Text + "," + lastname.Text + "," + dateTimePicker1.Text);
-                    sw.Close();
-                    DialogResult result = MessageBox.Show("New User Registeration Successful!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (result == DialogResult.OK)
+                    if (!String.IsNullOrEmpty(username.Text) && !String.IsNullOrEmpty(password.Text) && !String.IsNullOrEmpty(usertype.Text) && !String.IsNullOrEmpty(firstname.Text) && !String.IsNullOrEmpty(lastname.Text) && !String.IsNullOrEmpty(usertype.Text))
                     {
-                        this.Close();
+                        if (password.Text == repassword.Text)
+                        {
+                            StreamWriter sw = new StreamWriter("login.txt", append: true);
+                            sw.WriteLine("\n" + username.Text + "," + password.Text + "," + usertype.Text + "," + firstname.Text + "," + lastname.Text + "," + dateTimePicker1.Text);
+                            sw.Close();
+                            DialogResult result = MessageBox.Show("New User Registeration Successful!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (result == DialogResult.OK)
+                            {
+                                this.Close();
+                            }
+                        }
+                        else if (password.Text != repassword.Text)
+                        {
+                            DialogResult result = MessageBox.Show("Password do not match!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        DialogResult result = MessageBox.Show("Please enter the remaining field", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-                else if (password.Text != repassword.Text)
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private bool checkUniqueUser()
+        {
+            try
+            {
+                string[] logindata = File.ReadAllLines("login.txt");
+
+                foreach (string set in logindata)
                 {
-                    DialogResult result = MessageBox.Show("Password do not match!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    string[] splits = set.Split(',');
+                    if (splits[0] == username.Text)
+                    {
+                        MessageBox.Show("UserName already exists! Enter a different UserName.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
                 }
             }
-            else
+            catch (Exception e)
             {
-                DialogResult result = MessageBox.Show("Please enter the remaining field", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message);
             }
+            return true;
         }
     }
 }
