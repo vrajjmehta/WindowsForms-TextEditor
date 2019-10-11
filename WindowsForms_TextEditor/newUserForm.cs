@@ -13,11 +13,13 @@ namespace WindowsForms_TextEditor
 
         private void cancel_Click(object sender, EventArgs e)
         {
+            //hide this form if cancel is clicked
             this.Hide();
         }
 
         private void newUserForm_Load(object sender, EventArgs e)
         {
+            //Sets when the form loads
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "dd-MM-yyyy";
 
@@ -28,6 +30,7 @@ namespace WindowsForms_TextEditor
 
         private void repassword_TextChanged_1(object sender, EventArgs e)
         {
+            //display label whether the password is correct or not
             if (repassword.Text != "")
             {
                 if (password.Text != repassword.Text)
@@ -50,10 +53,12 @@ namespace WindowsForms_TextEditor
             {
                 if (checkUniqueUser())
                 {
+                    //check if not null
                     if (!String.IsNullOrEmpty(username.Text) && !String.IsNullOrEmpty(password.Text) && !String.IsNullOrEmpty(usertype.Text) && !String.IsNullOrEmpty(firstname.Text) && !String.IsNullOrEmpty(lastname.Text) && !String.IsNullOrEmpty(usertype.Text))
                     {
                         if (password.Text == repassword.Text)
                         {
+                            //check if password matches
                             StreamWriter sw = new StreamWriter("login.txt", append: true);
                             sw.WriteLine("\n" + username.Text + "," + password.Text + "," + usertype.Text + "," + firstname.Text + "," + lastname.Text + "," + dateTimePicker1.Text);
                             sw.Close();
@@ -76,12 +81,14 @@ namespace WindowsForms_TextEditor
             }
             catch(Exception ex)
             {
+                //if login file does not exits
                 MessageBox.Show(ex.Message);
             }
         }
 
         private bool checkUniqueUser()
         {
+            //function to check unique user
             try
             {
                 string[] logindata = File.ReadAllLines("login.txt");

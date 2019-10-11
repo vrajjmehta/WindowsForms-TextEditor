@@ -13,7 +13,7 @@ namespace WindowsForms_TextEditor
         {
             InitializeComponent();
             this.textChanged = false;
-            this.fileName = "Untitled";
+            this.fileName = "Untitled";             //by default the name of file is "Untitled".
             this.Text = this.fileName;
         }
         private void TextHasChanged(object sender, EventArgs e)
@@ -22,12 +22,14 @@ namespace WindowsForms_TextEditor
         }
         private string GetFileName(string path)
         {
+            //get filename
             string[] pathArray = path.Split('\\');
             return pathArray[pathArray.Length - 1];
         }
 
         private void Editor_Load(object sender, EventArgs e)
         {
+            //add font size to the combo box
             toolStripTextBox1.Text = this.Text;
             string[] fontsize = { "8","9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" };
             toolStripComboBox1.Items.AddRange(fontsize);
@@ -38,6 +40,7 @@ namespace WindowsForms_TextEditor
             string usertype = LoginForm.userType;
             if (usertype == "View")
             {
+                //disable all the buttons except open if usertype is View
                 newToolStripButton.Enabled = false;
                 saveToolStripButton.Enabled = false;
                 saveAsToolStripButton.Enabled = false;
@@ -71,8 +74,8 @@ namespace WindowsForms_TextEditor
                 }
 
                 this.textChanged = false;
-                this.Text = this.GetFileName(this.fileName);
-                this.openFileDialog1.FileName = string.Empty;
+                this.Text = this.GetFileName(this.fileName);            //get fileName
+                this.openFileDialog1.FileName = string.Empty;   
                 this.toolStripTextBox1.Text = this.Text;
             }
             catch
@@ -101,6 +104,7 @@ namespace WindowsForms_TextEditor
 
             if (this.fileName == "Untitled" || saveAs == true)
             {
+                //if filename is Untitled, open the saveas
                 if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     this.fileName = this.saveFileDialog1.FileName;
@@ -168,6 +172,7 @@ namespace WindowsForms_TextEditor
 
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
+            // by default the name is Untitled
             this.richTextBox1.Clear();
             this.fileName = "Untitled";
             this.toolStripTextBox1.Text = this.fileName;
@@ -175,6 +180,7 @@ namespace WindowsForms_TextEditor
 
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
+            //open tool box
             DialogResult askIfSave = DialogResult.None;
 
             if (this.textChanged == true)
@@ -200,11 +206,13 @@ namespace WindowsForms_TextEditor
 
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
+            //send false
             this.SaveFile(false);
         }
 
         private void saveAsToolStripButton_Click(object sender, EventArgs e)
         {
+            //send true
             this.SaveFile(true);
         }
 

@@ -7,8 +7,8 @@ namespace WindowsForms_TextEditor
     public partial class LoginForm : Form
     {
         bool loginflag;
-        public static string username { get; set; }
-        public static string userType { get; set; }
+        public static string username { get; set; }         //define username variable
+        public static string userType { get; set; }         //define usertpe variable
         public LoginForm()
         {
             loginflag = false;
@@ -29,16 +29,16 @@ namespace WindowsForms_TextEditor
                 foreach (string set in logindata)
                 {
                     string[] splits = set.Split(',');
-                    if (splits[0] == username_box.Text && splits[1] == password_Box.Text)
+                    if (splits[0] == username_box.Text && splits[1] == password_Box.Text)   //match username and password with the login file
                     {
                         DialogResult result = MessageBox.Show("Login Successful!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         loginflag = true;
                         if (result == DialogResult.OK)
                         {
                             this.Hide();
-                            username = username_box.Text;
+                            username = username_box.Text;   
                             userType = splits[2];
-                            Editor textEditor = new Editor();
+                            Editor textEditor = new Editor();       //show text editor
                             textEditor.Show();
                         }
                         break;
@@ -63,13 +63,13 @@ namespace WindowsForms_TextEditor
 
         private void newuser_Click(object sender, EventArgs e)
         {
-            newUserForm register = new newUserForm();
+            newUserForm register = new newUserForm();       //show register form if clicked
             register.Show();
         }
 
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Application.Exit();
+        {   
+            Application.Exit();                             //exit the application
         }
     }
 }
