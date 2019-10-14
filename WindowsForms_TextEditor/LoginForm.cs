@@ -63,6 +63,7 @@ namespace WindowsForms_TextEditor
 
         private void newuser_Click(object sender, EventArgs e)
         {
+            this.Hide();
             newUserForm register = new newUserForm();       //show register form if clicked
             register.Show();
         }

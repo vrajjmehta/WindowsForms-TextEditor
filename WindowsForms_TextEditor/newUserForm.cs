@@ -15,6 +15,8 @@ namespace WindowsForms_TextEditor
         {
             //hide this form if cancel is clicked
             this.Hide();
+            LoginForm login = new LoginForm();
+            login.Show();
         }
 
         private void newUserForm_Load(object sender, EventArgs e)
@@ -108,6 +110,11 @@ namespace WindowsForms_TextEditor
                 MessageBox.Show(e.Message);
             }
             return true;
+        }
+
+        private void newUserForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

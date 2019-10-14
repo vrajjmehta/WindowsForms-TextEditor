@@ -227,6 +227,7 @@
             this.Controls.Add(this.label1);
             this.Name = "newUserForm";
             this.Text = "Register User";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.newUserForm_FormClosing);
             this.Load += new System.EventHandler(this.newUserForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
